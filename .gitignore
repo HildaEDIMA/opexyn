@@ -34,4 +34,5 @@ frontend/node_modules/
 frontend/dist/
 
 # Env
-.env
+frontend/.env
+tools/.env
