@@ -1,0 +1,231 @@
+# ── Fond d'écran sombre professionnel ────────────────────────────────────────
+xsetroot -solid "#0f0f13" &
+
+# Génère un fond d'écran dégradé propre avec ImageMagick
+convert -size 1280x800 \
+  gradient:"#0f0f13"-"#1a1a2e" \
+  /root/wallpaper_generated.png 2>/dev/null && \
+feh --bg-fill /root/wallpaper_generated.png 2>/dev/null &
+
+# ── Petits utilitaires desktop ────────────────────────────────────────────────
+# Désactive l'économiseur d'écran
+xset s off &
+xset -dpms &
+xset s noblank &
+
+# Curseur propre (flèche standard)
+xsetroot -cursor_name left_ptr &
+
+# ── Dossiers utiles sur le bureau ─────────────────────────────────────────────
+mkdir -p /root/Bureau/Projets
+mkdir -p /root/Bureau/Téléchargements
+mkdir -p /root/Documents
+mkdir -p /root/Téléchargements
+
+# ── Raccourcis clavier Openbox ────────────────────────────────────────────────
+# (définis dans /root/.config/openbox/rc.xml — générés ci-dessous)
+
+# ── Génère la config Openbox au premier démarrage ─────────────────────────────
+mkdir -p /root/.config/openbox
+
+cat > /root/.config/openbox/rc.xml << 'RCXML'
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+
+  <theme>
+    <name>Clearlooks</name>
+    <titleLayout>NLIMC</titleLayout>
+    <keepBorder>yes</keepBorder>
+    <animateIconify>no</animateIconify>
+    <font place="ActiveWindow">
+      <name>Inter</name>
+      <size>10</size>
+      <weight>Bold</weight>
+    </font>
+  </theme>
+
+  <desktops>
+    <number>1</number>
+    <firstdesk>1</firstdesk>
+    <names><name>Bureau</name></names>
+  </desktops>
+
+  <resize><drawContents>yes</drawContents></resize>
+
+  <keyboard>
+    <!-- Terminal : Ctrl+Alt+T -->
+    <keybind key="C-A-t">
+      <action name="Execute">
+        <command>xterm -fa 'Monospace' -fs 11 -geometry 120x35+50+50 -bg '#0f0f13' -fg '#f0f0ee' -title 'Terminal'</command>
+      </action>
+    </keybind>
+    <!-- Fermer fenêtre : Alt+F4 -->
+    <keybind key="A-F4">
+      <action name="Close"/>
+    </keybind>
+    <!-- Maximiser : Super+Up -->
+    <keybind key="W-Up">
+      <action name="Maximize"/>
+    </keybind>
+  </keyboard>
+
+  <mouse>
+    <dragThreshold>1</dragThreshold>
+    <doubleClickTime>200</doubleClickTime>
+    <context name="Desktop">
+      <!-- Clic droit = menu -->
+      <mousebind button="Right" action="Press">
+        <action name="ShowMenu"><menu>root-menu</menu></action>
+      </mousebind>
+    </context>
+    <context name="Client">
+      <mousebind button="Left" action="Press">
+        <action name="Focus"/>
+        <action name="Raise"/>
+      </mousebind>
+    </context>
+    <context name="Titlebar">
+      <mousebind button="Left" action="Drag">
+        <action name="Move"/>
+      </mousebind>
+      <mousebind button="Left" action="DoubleClick">
+        <action name="ToggleMaximize"/>
+      </mousebind>
+    </context>
+    <context name="Bottom">
+      <mousebind button="Left" action="Drag">
+        <action name="Resize"><edge>bottom</edge></action>
+      </mousebind>
+    </context>
+  </mouse>
+
+  <menu>
+    <file>/root/.config/openbox/menu.xml</file>
+    <hideDelay>200</hideDelay>
+    <middle>no</middle>
+    <submenuShowDelay>100</submenuShowDelay>
+    <applicationIcons>no</applicationIcons>
+  </menu>
+
+  <applications>
+    <!-- Les terminaux s'ouvrent toujours avec le focus -->
+    <application name="xterm">
+      <focus>yes</focus>
+      <position force="no"/>
+    </application>
+    <!-- Chromium maximisé par défaut -->
+    <application name="chromium">
+      <maximized>yes</maximized>
+      <focus>yes</focus>
+    </application>
+  </applications>
+
+</openbox_config>
+RCXML
+
+# ── Menu clic droit du bureau ──────────────────────────────────────────────────
+cat > /root/.config/openbox/menu.xml << 'MENUXML'
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+  <menu id="root-menu" label="Bureau d'Alex">
+    <item label="Ouvrir un terminal">
+      <action name="Execute">
+        <command>xterm -fa 'Monospace' -fs 11 -geometry 120x35+50+50 -bg '#0f0f13' -fg '#f0f0ee' -title 'Terminal'</command>
+      </action>
+    </item>
+    <item label="Ouvrir Chromium">
+      <action name="Execute">
+        <command>chromium --no-sandbox --disable-gpu --start-maximized</command>
+      </action>
+    </item>
+    <separator/>
+    <item label="Gestionnaire de fichiers">
+      <action name="Execute">
+        <command>pcmanfm</command>
+      </action>
+    </item>
+    <separator/>
+    <item label="Actualiser le bureau">
+      <action name="Execute">
+        <command>openbox --reconfigure</command>
+      </action>
+    </item>
+  </menu>
+</openbox_menu>
+MENUXML
+
+# ── Config tint2 — barre des tâches propre ─────────────────────────────────────
+mkdir -p /root/.config/tint2
+
+cat > /root/.config/tint2/tint2rc << 'TINT2RC'
+# Barre en bas, style sombre Opexyn
+panel_items = TSC
+panel_size = 100% 36
+panel_margin = 0 0
+panel_padding = 4 0 4
+panel_background_id = 1
+wm_menu = 1
+panel_dock = 0
+panel_layer = top
+panel_position = bottom center horizontal
+panel_monitor = all
+
+# Fond de la barre
+rounded = 0
+border_width = 0
+background_color = #0f0f13 100
+border_color = #1a1a1a 100
+
+# Taskbar (fenêtres ouvertes)
+taskbar_mode = single_desktop
+taskbar_padding = 2 2 2
+taskbar_background_id = 0
+taskbar_active_background_id = 2
+task_icon = 0
+task_text = 1
+task_maximum_size = 200 30
+task_centered = 1
+task_font = Inter 10
+task_font_color = #f0f0ee 70
+task_active_font_color = #f0f0ee 100
+task_padding = 6 2
+task_background_id = 3
+task_active_background_id = 2
+
+# Fond tâche inactive
+rounded = 4
+border_width = 0
+background_color = #1a1a1a 80
+border_color = #1a1a1a 0
+
+# Fond tâche active
+rounded = 4
+border_width = 1
+background_color = #c8f03c 15
+border_color = #c8f03c 60
+
+# Horloge
+time1_format = %H:%M
+time1_font = Inter Bold 11
+time1_font_color = #f0f0ee 90
+time2_format = %a %d %b
+time2_font = Inter 9
+time2_font_color = #f0f0ee 40
+clock_padding = 8 0
+clock_background_id = 0
+clock_lclick_command = 
+
+# Systray
+systray_padding = 4 4 4
+systray_background_id = 0
+systray_sort = ascending
+systray_icon_size = 20
+systray_icon_asb = 100 0 0
+
+mouse_middle = none
+mouse_right = none
+mouse_scroll_up = none
+mouse_scroll_down = none
+TINT2RC
+
+echo "[Desktop] Configuration bureau chargée ✓"
