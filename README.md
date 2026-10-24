@@ -9,12 +9,13 @@ Opexyn is an AI Workforce Platform: instead of chatbots that answer questions, i
 ## Demo
 
 Demo video: *coming soon* [lien YouTube à ajouter]
-
-![Screenshot 1](screen1.png)
-![Screenshot 2](screen2.png)
-![Screenshot 3](screen3.png)
-![Screenshot 4](screen4.png)
-![Screenshot 5](screen5.png)
+<p align="center">
+  <img src="screen1.png" width="45%" alt="Opexyn screenshot 1">
+  <img src="screen2.png" width="45%" alt="Opexyn screenshot 2">
+  <img src="screen3.png" width="45%" alt="Opexyn screenshot 3">
+  <img src="screen4.png" width="45%" alt="Opexyn screenshot 4">
+  <img src="screen5.png" width="45%" alt="Opexyn screenshot 5">
+</p>
 
 ## How it works
 
