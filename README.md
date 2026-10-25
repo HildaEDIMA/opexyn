@@ -8,7 +8,6 @@ Opexyn is an AI Workforce Platform: instead of chatbots that answer questions, i
 
 ## Demo
 
-Demo video: *coming soon* [lien YouTube à ajouter]
 <p align="center">
   <img src="screen1.png" width="45%" alt="Opexyn screenshot 1">
   <img src="screen2.png" width="45%" alt="Opexyn screenshot 2">
